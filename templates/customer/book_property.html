@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Book {{ property.title }}{% endblock %}
+{% block content %}
+<div class="form-card" style="max-width:560px;">
+    <h1>Book Property</h1>
+    <h2 class="text-muted mb-2">{{ property.title }}</h2>
+
+    <div style="background: #f8fafc; padding: 16px; border-radius: 8px; margin-bottom: 24px; border: 1px solid #e2e8f0;">
+        <div class="flex-between">
+            <span style="font-weight: 600; color: #475569;">Price per night</span>
+            <span style="font-size: 1.1rem; font-weight: 700; color: #2563eb;">${{ "%.2f" | format(property.price_per_night) }}</span>
+        </div>
+    </div>
+
+    <form method="POST" action="{{ url_for('customer.book_property', property_id=property.id) }}">
+        <div class="form-group">
+            <label for="check_in_date">Check-in Date *</label>
+            <input type="date" id="check_in_date" name="check_in_date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="check_out_date">Check-out Date *</label>
+            <input type="date" id="check_out_date" name="check_out_date" required>
+        </div>
+        
+        <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 20px;">
+            Total price will be automatically calculated based on your selected dates.
+        </p>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Confirm Booking Request</button>
+        </div>
+    </form>
+    
+    <div class="text-center mt-2">
+        <a href="{{ url_for('property.property_detail', property_id=property.id) }}">Back to Property</a>
+    </div>
+</div>
+{% endblock %}

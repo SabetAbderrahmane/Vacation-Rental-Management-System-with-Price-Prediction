@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}{{ property.title }}{% endblock %}
+{% block content %}
+
+<div class="mb-3">
+    <a href="{{ url_for('property.list_properties') }}" class="text-muted">&larr; Back to properties</a>
+</div>
+
+<div class="card">
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+        {% if property.image_url %}
+            <img src="{{ property.image_url }}" alt="{{ property.title }}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px;">
+        {% else %}
+            <div style="width: 100%; height: 300px; background: #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #64748b;">
+                No Property Image
+            </div>
+        {% endif %}
+
+        <div>
+            <div class="flex-between">
+                <h1>{{ property.title }}</h1>
+                <div style="font-size: 1.5rem; font-weight: 700; color: #2563eb;">${{ "%.2f" | format(property.price_per_night) }} <span style="font-size: 1rem; color: #64748b; font-weight: 400;">/ night</span></div>
+            </div>
+            
+            <p class="text-muted" style="margin-bottom: 20px;">
+                📍 {{ property.location }} {% if property.address %}({{ property.address }}){% endif %} &nbsp;&bull;&nbsp; 🏠 {{ property.room_type | replace('_', ' ') | title }} &nbsp;&bull;&nbsp; Host ID: {{ property.host_id }}
+            </p>
+
+            <div style="display:flex; gap: 16px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid #e2e8f0;">
+                <div style="background: #f1f5f9; padding: 10px 16px; border-radius: 6px;"><strong>{{ property.max_guests }}</strong> Guests</div>
+                <div style="background: #f1f5f9; padding: 10px 16px; border-radius: 6px;"><strong>{{ property.bedrooms }}</strong> Bedrooms</div>
+                <div style="background: #f1f5f9; padding: 10px 16px; border-radius: 6px;"><strong>{{ property.bathrooms }}</strong> Bathrooms</div>
+            </div>
+
+            <div class="mb-3">
+                <h3 class="mb-1">About this place</h3>
+                <p style="white-space: pre-wrap; line-height: 1.6;">{{ property.description or "No description provided." }}</p>
+            </div>
+
+            {% if property.amenities %}
+            <div class="mb-3">
+                <h3 class="mb-1">Amenities</h3>
+                <p>
+                    {% for amenity in property.amenities.split(',') %}
+                        <span style="display:inline-block; background: #e2e8f0; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; margin: 0 4px 4px 0;">{{ amenity.strip() }}</span>
+                    {% endfor %}
+                </p>
+            </div>
+            {% endif %}
+
+            <div class="mt-3">
+                {% if property.availability_status == 'available' %}
+                    {% if not current_user.is_authenticated %}
+                        <div class="alert alert-info">
+                            Please <a href="{{ url_for('auth.login') }}" style="font-weight: 600;">log in</a> as a customer to book this property.
+                        </div>
+                    {% elif current_user.role == 'customer' %}
+                        <a href="{{ url_for('customer.book_property', property_id=property.id) }}" class="btn btn-primary" style="font-size: 1.1rem; padding: 12px 32px;">Book Now</a>
+                    {% else %}
+                        <p class="text-muted">You are logged in as a {{ current_user.role }}. Only customers can make bookings.</p>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-warning" style="display: inline-block;">
+                        This property is currently unavailable for booking.
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="mt-3">
+    <h2 class="mb-2">Reviews</h2>
+    {% if reviews %}
+        {% for review in reviews %}
+            <div class="card" style="margin-bottom: 12px;">
+                <div class="flex-between mb-1">
+                    <strong>{{ review._customer.name if review._customer else 'Customer #' ~ review.customer_id }}</strong>
+                    <span style="color: #fbbf24;">
+                        {% for _ in range(review.rating) %}★{% endfor %}
+                        {% for _ in range(5 - review.rating) %}☆{% endfor %}
+                    </span>
+                </div>
+                <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 8px;">{{ review.created_at.strftime('%Y-%m-%d') }}</p>
+                <p>{{ review.comment or "No comment." }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="text-muted">No reviews for this property yet.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Admin - Manage Reviews{% endblock %}
+{% block content %}
+<div class="flex-between mb-3">
+    <h1>Review Management</h1>
+    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline">&larr; Back to Dashboard</a>
+</div>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Customer</th>
+                <th>Property</th>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Date Submitted</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in reviews %}
+            <tr>
+                <td class="text-muted">#{{ r.id }}</td>
+                <td>
+                    <div style="font-weight: 600;">{{ r._customer.name if r._customer else 'Unknown' }}</div>
+                    <div style="font-size: 0.85rem; color: #64748b;">{{ r._customer.email if r._customer else '--' }}</div>
+                </td>
+                <td>
+                    <a href="{{ url_for('property.property_detail', property_id=r.property_id) }}">{{ r._property.title if r._property else 'Unknown Property' }}</a>
+                </td>
+                <td style="color: #fbbf24; font-size: 1.1rem; min-width: 90px;">
+                    {% for _ in range(r.rating) %}★{% endfor %}{% for _ in range(5 - r.rating) %}☆{% endfor %}
+                </td>
+                <td style="max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ r.comment }}">
+                    {{ r.comment or '--' }}
+                </td>
+                <td style="font-size: 0.85rem; color:#64748b;">{{ r.created_at.strftime('%Y-%m-%d') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

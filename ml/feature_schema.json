@@ -1,0 +1,49 @@
+{
+    "target": "log_price",
+    "display_target": "price",
+    "prediction_output_scale": "original_price",
+    "features": [
+        "city",
+        "location",
+        "room_type",
+        "property_type",
+        "bed_type",
+        "cancellation_policy",
+        "cleaning_fee",
+        "instant_bookable",
+        "host_identity_verified",
+        "max_guests",
+        "bathrooms",
+        "bedrooms",
+        "beds",
+        "number_of_reviews",
+        "review_score",
+        "latitude",
+        "longitude",
+        "amenities_count"
+    ],
+    "categorical_features": [
+        "city",
+        "location",
+        "room_type",
+        "property_type",
+        "bed_type",
+        "cancellation_policy",
+        "cleaning_fee",
+        "instant_bookable",
+        "host_identity_verified"
+    ],
+    "numeric_features": [
+        "max_guests",
+        "bathrooms",
+        "bedrooms",
+        "beds",
+        "number_of_reviews",
+        "review_score",
+        "latitude",
+        "longitude",
+        "amenities_count"
+    ],
+    "target_transform": "natural_log",
+    "inverse_transform_used": "np.exp"
+}

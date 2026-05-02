@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block title %}Price Predictor - Vacation Rental System{% endblock %}
+
+{% block content %}
+<div class="header-actions mb-3">
+    <h1>Smart Price Predictor</h1>
+    <p class="text-muted">Use our machine learning model to estimate the optimal nightly price for your listing.</p>
+</div>
+
+<div class="prediction-container" style="display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start;">
+    
+    <!-- Left: Form -->
+    <div class="card">
+        {% if error_message %}
+        <div class="alert alert-error" style="margin-bottom: 20px;">
+            <strong>System Error:</strong> {{ error_message }}
+        </div>
+        {% endif %}
+        <form action="{{ url_for('prediction.predict') }}" method="POST">
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <!-- Section 1: Basic Info -->
+                <div class="form-section">
+                    <h3>Basic Property Info</h3>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city" placeholder="e.g. NYC, LA, SF" value="{{ form_data.get('city', '') if form_data else '' }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Neighborhood</label>
+                        <input type="text" id="location" name="location" placeholder="e.g. Brooklyn, Hollywood" value="{{ form_data.get('location', '') if form_data else '' }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="room_type">Room Type</label>
+                        <select id="room_type" name="room_type" required>
+                            <option value="">- Select Room Type -</option>
+                            <option value="entire_home" {% if form_data and form_data.get('room_type') == 'entire_home' %}selected{% endif %}>Entire Home/Apt</option>
+                            <option value="private_room" {% if form_data and form_data.get('room_type') == 'private_room' %}selected{% endif %}>Private Room</option>
+                            <option value="shared_room" {% if form_data and form_data.get('room_type') == 'shared_room' %}selected{% endif %}>Shared Room</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Section 2: Capacity -->
+                <div class="form-section">
+                    <h3>Capacity</h3>
+                    <div class="form-group">
+                        <label for="max_guests">Max Guests</label>
+                        <input type="number" id="max_guests" name="max_guests" min="1" value="{{ form_data.get('max_guests', '2') if form_data else '2' }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bedrooms">Bedrooms</label>
+                        <input type="number" id="bedrooms" name="bedrooms" min="0" value="{{ form_data.get('bedrooms', '1') if form_data else '1' }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bathrooms">Bathrooms</label>
+                        <input type="number" step="0.5" id="bathrooms" name="bathrooms" min="0" value="{{ form_data.get('bathrooms', '1') if form_data else '1' }}" required>
+                    </div>
+                </div>
+            </div>
+
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <!-- Section 3: Quality & Details -->
+                <div class="form-section">
+                    <h3>Listing Details</h3>
+                    <div class="form-group">
+                        <label for="property_type">Property Type</label>
+                        <select id="property_type" name="property_type" required>
+                            <option value="Apartment" {% if form_data and form_data.get('property_type') == 'Apartment' %}selected{% endif %}>Apartment</option>
+                            <option value="House" {% if form_data and form_data.get('property_type') == 'House' %}selected{% endif %}>House</option>
+                            <option value="Condominium" {% if form_data and form_data.get('property_type') == 'Condominium' %}selected{% endif %}>Condominium</option>
+                            <option value="Townhouse" {% if form_data and form_data.get('property_type') == 'Townhouse' %}selected{% endif %}>Townhouse</option>
+                            <option value="Loft" {% if form_data and form_data.get('property_type') == 'Loft' %}selected{% endif %}>Loft</option>
+                            <option value="Other" {% if form_data and form_data.get('property_type') == 'Other' %}selected{% endif %}>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="bed_type">Bed Type</label>
+                        <select id="bed_type" name="bed_type" required>
+                            <option value="Real Bed" {% if form_data and form_data.get('bed_type') == 'Real Bed' %}selected{% endif %}>Real Bed</option>
+                            <option value="Futon" {% if form_data and form_data.get('bed_type') == 'Futon' %}selected{% endif %}>Futon</option>
+                            <option value="Pull-out Sofa" {% if form_data and form_data.get('bed_type') == 'Pull-out Sofa' %}selected{% endif %}>Pull-out Sofa</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="amenities_count">Amenities Count</label>
+                        <input type="number" id="amenities_count" name="amenities_count" min="0" value="{{ form_data.get('amenities_count', '10') if form_data else '10' }}" required>
+                    </div>
+                </div>
+
+                <!-- Section 4: Scores & Location -->
+                <div class="form-section">
+                    <h3>Scores & Coordinates</h3>
+                    <div class="form-group">
+                        <label for="review_score">Review Rating (0-100)</label>
+                        <input type="number" id="review_score" name="review_score" min="0" max="100" value="{{ form_data.get('review_score', '95') if form_data else '95' }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="latitude">Latitude</label>
+                        <input type="text" id="latitude" name="latitude" value="{{ form_data.get('latitude', '40.7128') if form_data else '40.7128' }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="longitude">Longitude</label>
+                        <input type="text" id="longitude" name="longitude" value="{{ form_data.get('longitude', '-74.0060') if form_data else '-74.0060' }}" required>
+                    </div>
+                </div>
+            </div>
+
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+
+            <!-- Section 5: Policies -->
+            <div class="form-section">
+                <h3>Policies & Verification</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label for="cancellation_policy">Cancellation</label>
+                        <select id="cancellation_policy" name="cancellation_policy" required>
+                            <option value="strict" {% if form_data and form_data.get('cancellation_policy') == 'strict' %}selected{% endif %}>Strict</option>
+                            <option value="moderate" {% if form_data and form_data.get('cancellation_policy') == 'moderate' %}selected{% endif %}>Moderate</option>
+                            <option value="flexible" {% if form_data and form_data.get('cancellation_policy') == 'flexible' %}selected{% endif %}>Flexible</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cleaning_fee">Cleaning Fee</label>
+                        <select id="cleaning_fee" name="cleaning_fee" required>
+                            <option value="True" {% if form_data and form_data.get('cleaning_fee') == 'True' %}selected{% endif %}>Yes</option>
+                            <option value="False" {% if form_data and form_data.get('cleaning_fee') == 'False' %}selected{% endif %}>No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="instant_bookable">Instant Bookable</label>
+                        <select id="instant_bookable" name="instant_bookable" required>
+                            <option value="t" {% if form_data and form_data.get('instant_bookable') == 't' %}selected{% endif %}>Yes</option>
+                            <option value="f" {% if form_data and form_data.get('instant_bookable') == 'f' %}selected{% endif %}>No</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label for="host_identity_verified">Host Verified</label>
+                        <select id="host_identity_verified" name="host_identity_verified" required>
+                            <option value="t" {% if form_data and form_data.get('host_identity_verified') == 't' %}selected{% endif %}>Yes</option>
+                            <option value="f" {% if form_data and form_data.get('host_identity_verified') == 'f' %}selected{% endif %}>No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="beds">Beds</label>
+                        <input type="number" id="beds" name="beds" min="0" value="{{ form_data.get('beds', '1') if form_data else '1' }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="number_of_reviews">Reviews Count</label>
+                        <input type="number" id="number_of_reviews" name="number_of_reviews" min="0" value="{{ form_data.get('number_of_reviews', '10') if form_data else '10' }}" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions mt-3">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Calculate Estimated Price</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Right: Results -->
+    <div class="sidebar">
+        {% if prediction is not none %}
+        <div class="card" style="border: 2px solid #2563eb; background: #f8fafc; text-align: center;">
+            <h3 style="color: #2563eb; margin-bottom: 5px;">Estimated Price</h3>
+            <div style="font-size: 2.5rem; font-weight: 800; color: #1e293b; margin: 10px 0;">
+                ${{ prediction }}
+                <span style="font-size: 1rem; font-weight: 500; color: #64748b;">/ night</span>
+            </div>
+            <p style="font-size: 0.8rem; color: #64748b; line-height: 1.4; margin-top: 15px;">
+                <strong>Disclaimer:</strong> This is an estimated nightly price based on historical Airbnb-style listing data. It should be used as a recommendation, not a guaranteed market price.
+            </p>
+        </div>
+        {% else %}
+        <div class="card" style="text-align: center; border: 1px dashed #cbd5e1;">
+            <p class="text-muted" style="margin: 0;">Fill out the form and click calculate to see the estimated price.</p>
+        </div>
+        {% endif %}
+
+        <div class="card mt-2">
+            <h3>Model Info</h3>
+            <p style="font-size: 0.85rem; color: #475569;">
+                Our price engine uses a **Tuned Random Forest Regression** model with 60% predictive variance.
+            </p>
+            <a href="{{ url_for('prediction.model_metrics') }}" class="btn btn-sm btn-outline" style="width: 100%;">View Model Metrics</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

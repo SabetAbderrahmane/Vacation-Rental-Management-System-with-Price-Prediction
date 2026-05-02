@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Admin - Manage Bookings{% endblock %}
+{% block content %}
+<div class="flex-between mb-3">
+    <h1>Booking Management</h1>
+    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline">&larr; Back to Dashboard</a>
+</div>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Customer</th>
+                <th>Property</th>
+                <th>Dates & Nights</th>
+                <th>Total Price</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for b in bookings %}
+            <tr>
+                <td class="text-muted">#{{ b.id }}</td>
+                <td>
+                    <div style="font-weight: 600;">{{ b._customer.name if b._customer else 'Unknown' }}</div>
+                    <div style="font-size: 0.85rem; color: #64748b;">{{ b._customer.email if b._customer else '--' }}</div>
+                </td>
+                <td>
+                    <a href="{{ url_for('property.property_detail', property_id=b.property_id) }}">{{ b._property.title if b._property else 'Unknown Property' }}</a>
+                </td>
+                <td style="font-size: 0.85rem;">
+                    <div>In: {{ b.check_in_date.strftime('%Y-%m-%d') }}</div>
+                    <div>Out: {{ b.check_out_date.strftime('%Y-%m-%d') }}</div>
+                    <div class="text-muted">({{ b.number_of_nights }} nights)</div>
+                </td>
+                <td style="font-weight: 600;">${{ "%.2f" | format(b.total_price) }}</td>
+                <td>
+                    <span class="badge badge-{{ b.status }}">{{ b.status }}</span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{
+    "dataset_name": "Airbnb_data Dataset (Multi-city)",
+    "dataset_file_used": "ml\\dataset\\raw\\Airbnb_data.csv",
+    "rows_before_cleaning": 74111,
+    "rows_after_cleaning": 72651,
+    "target_used": "log_price",
+    "target_transform": "natural_log",
+    "inverse_transform_used": "np.exp",
+    "best_model": "Tuned Random Forest B (Best)",
+    "selection_reason": "lowest RMSE and best overall metrics across all iterations",
+    "models": {
+        "Dummy (Mean)": {
+            "MAE": 77.3532,
+            "RMSE": 129.003,
+            "R2": -0.0648,
+            "acceptability_within_20_percent": 23.36,
+            "acceptability_within_25_percent": 31.27,
+            "acceptability_within_30_percent": 34.16
+        },
+        "Dummy (Median)": {
+            "MAE": 77.227,
+            "RMSE": 131.0715,
+            "R2": -0.0992,
+            "acceptability_within_20_percent": 23.58,
+            "acceptability_within_25_percent": 29.39,
+            "acceptability_within_30_percent": 35.42
+        },
+        "Linear Regression": {
+            "MAE": 46.0104,
+            "RMSE": 86.3706,
+            "R2": 0.5227,
+            "acceptability_within_20_percent": 45.12,
+            "acceptability_within_25_percent": 54.2,
+            "acceptability_within_30_percent": 62.01
+        },
+        "Decision Tree Regression": {
+            "MAE": 48.3948,
+            "RMSE": 90.0412,
+            "R2": 0.4813,
+            "acceptability_within_20_percent": 43.9,
+            "acceptability_within_25_percent": 53.33,
+            "acceptability_within_30_percent": 61.47
+        },
+        "Random Forest Baseline": {
+            "MAE": 43.094,
+            "RMSE": 80.0307,
+            "R2": 0.5902,
+            "acceptability_within_20_percent": 47.99,
+            "acceptability_within_25_percent": 57.5,
+            "acceptability_within_30_percent": 65.6
+        },
+        "Tuned Random Forest B (Best)": {
+            "MAE": 42.5936,
+            "RMSE": 79.4651,
+            "R2": 0.596,
+            "acceptability_within_20_percent": 48.87,
+            "acceptability_within_25_percent": 58.32,
+            "acceptability_within_30_percent": 66.58
+        },
+        "Latest NLP Improvement Pass (Rejected)": {
+            "MAE": 42.86,
+            "RMSE": 80.29,
+            "R2": 0.59,
+            "acceptability_within_20_percent": 48.5,
+            "note": "Discarded - NLP amenities features did not improve over simpler best config."
+        }
+    },
+    "currency": "USD"
+}

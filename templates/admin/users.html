@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Admin - Manage Users{% endblock %}
+{% block content %}
+<div class="flex-between mb-3">
+    <h1>User Management</h1>
+    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline">&larr; Back to Dashboard</a>
+</div>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Phone</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in users %}
+            <tr>
+                <td class="text-muted">#{{ u.id }}</td>
+                <td style="font-weight: 600;">{{ u.name }}</td>
+                <td>{{ u.email }}</td>
+                <td>
+                    {% if u.role == 'admin' %}
+                        <span class="badge badge-success">{{ u.role }}</span>
+                    {% elif u.role == 'host' %}
+                        <span class="badge badge-primary">{{ u.role }}</span>
+                    {% else %}
+                        <span class="badge" style="background:#e2e8f0; color:#475569;">{{ u.role }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ u.phone or '--' }}</td>
+                <td style="font-size: 0.85rem; color:#64748b;">{{ u.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

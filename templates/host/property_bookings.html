@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Manage Bookings{% endblock %}
+{% block content %}
+<div class="flex-between mb-3">
+    <h1>Booking Management</h1>
+    <a href="{{ url_for('host.dashboard') }}" class="btn btn-outline">&larr; Back to Dashboard</a>
+</div>
+
+{% if bookings %}
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Property</th>
+                <th>Customer</th>
+                <th>Dates</th>
+                <th>Nights</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for b in bookings %}
+            <tr>
+                <td class="text-muted">#{{ b.id }}</td>
+                <td><a href="{{ url_for('property.property_detail', property_id=b.property_id) }}">{{ b.property.title }}</a></td>
+                <td>
+                    <div style="font-weight: 600;">{{ b._customer.name }}</div>
+                    <div style="font-size: 0.85rem; color: #64748b;">{{ b._customer.email }}</div>
+                </td>
+                <td style="font-size: 0.9rem;">
+                    <div>{{ b.check_in_date.strftime('%b %d, %Y') }}</div>
+                    <div>{{ b.check_out_date.strftime('%b %d, %Y') }}</div>
+                </td>
+                <td>{{ b.number_of_nights }}</td>
+                <td style="font-weight: 600;">${{ "%.2f" | format(b.total_price) }}</td>
+                <td>
+                    <span class="badge badge-{{ b.status }}">{{ b.status }}</span>
+                </td>
+                <td style="min-width: 130px;">
+                    {% if b.status == 'pending' %}
+                        <form method="POST" action="{{ url_for('host.confirm_booking', booking_id=b.id) }}" style="display:inline; margin-right: 4px;">
+                            <button type="submit" class="btn btn-sm btn-primary">Confirm</button>
+                        </form>
+                        <form method="POST" action="{{ url_for('host.cancel_booking_host', booking_id=b.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-danger" data-confirm="Are you sure you want to decline/cancel this booking?">Cancel</button>
+                        </form>
+                    {% elif b.status == 'confirmed' %}
+                        <form method="POST" action="{{ url_for('host.complete_booking', booking_id=b.id) }}" style="display:inline; margin-right: 4px;">
+                            <button type="submit" class="btn btn-sm btn-success">Complete</button>
+                        </form>
+                        <form method="POST" action="{{ url_for('host.cancel_booking_host', booking_id=b.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-danger" data-confirm="Are you sure you want to cancel this confirmed booking?">Cancel</button>
+                        </form>
+                    {% else %}
+                        <span class="text-muted" style="font-size: 0.85rem;">No actions</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="card text-center">
+    <p class="text-muted">You don't have any bookings for your properties yet.</p>
+</div>
+{% endif %}
+{% endblock %}
