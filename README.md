@@ -57,12 +57,37 @@ python app.py
 ```
 Then navigate to `http://127.0.0.1:5000` in your web browser.
 
-## Training the ML Model
-
-To train the rental price prediction model, a public rental dataset must be placed in `ml/dataset/raw/listings.csv`. Then run:
+To train the rental price prediction model, a public rental dataset must be placed in `ml/dataset/raw/Airbnb_data.csv`. Then run:
 
 ```bash
 python ml/train_model.py
 ```
 
 This will generate the necessary prediction artifacts (`model.joblib`, `metrics.json`, `feature_schema.json`) for the backend to use.
+
+## Demo Data & Seeding
+
+For testing and demonstration, you can populate the database with realistic sample data (users, properties, bookings, and reviews):
+
+1. **Initialize Database** (if not already done):
+   ```bash
+   python init_db.py
+   ```
+2. **Run the Seed Script**:
+   ```bash
+   python seed.py
+   ```
+
+### Demo Accounts
+
+| Role | Email | Password |
+|------|-------|----------|
+| **Admin** | `admin@example.com` | `admin123` |
+| **Host** | `host@example.com` | `host123` |
+| **Customer** | `customer@example.com` | `customer123` |
+
+### Recommended Demo Flow
+
+1. **Host Experience**: Log in as a host to manage your listings and use the **Price Predictor** to optimize your nightly rates.
+2. **Customer Experience**: Log in as a customer to browse NYC, LA, and SF properties, book stays, and leave reviews.
+3. **Admin Experience**: Use the admin dashboard to oversee all system activity and data.
