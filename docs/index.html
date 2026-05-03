@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Vacation Rental Management System with Price Prediction</title>
+  <meta
+    name="description"
+    content="An undergraduate thesis MVP for managing vacation rentals, bookings, reviews, users, and ML-based price prediction."
+  />
+
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="hero">
+    <nav class="nav">
+      <div class="brand">Vacation Rental MVP</div>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#screenshots">Screenshots</a>
+        <a href="#stack">Tech Stack</a>
+        <a href="https://github.com/SabetAbderrahmane/Vacation-Rental-Management-System-with-Price-Prediction" target="_blank" rel="noreferrer">
+          GitHub Repo
+        </a>
+      </div>
+    </nav>
+
+    <section class="hero-content">
+      <p class="eyebrow">Undergraduate Thesis Project</p>
+      <h1>Vacation Rental Management System with Price Prediction</h1>
+      <p class="hero-text">
+        A web-based academic MVP for managing vacation rental listings, bookings,
+        user roles, reviews, and machine-learning-based nightly price prediction.
+      </p>
+
+      <div class="hero-actions">
+        <a class="button button-primary" href="https://github.com/SabetAbderrahmane/Vacation-Rental-Management-System-with-Price-Prediction" target="_blank" rel="noreferrer">
+          View Source Code
+        </a>
+        <a class="button button-secondary" href="#screenshots">
+          View Screenshots
+        </a>
+      </div>
+    </section>
+  </header>
+
+  <main>
+    <section class="section" id="overview">
+      <div class="section-header">
+        <p class="eyebrow">Project Overview</p>
+        <h2>Academic MVP, not fake SaaS nonsense</h2>
+        <p>
+          This project demonstrates the core flow of a vacation rental platform:
+          administrators monitor system data, hosts manage properties, customers
+          book stays, and the system includes a basic ML module for rental price
+          prediction.
+        </p>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card">
+          <span>3</span>
+          <p>User Roles</p>
+        </article>
+        <article class="stat-card">
+          <span>6+</span>
+          <p>Core Modules</p>
+        </article>
+        <article class="stat-card">
+          <span>1</span>
+          <p>ML Price Model</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="section-header">
+        <p class="eyebrow">Core Features</p>
+        <h2>What the system actually does</h2>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h3>Authentication</h3>
+          <p>Registration and login for different user types.</p>
+        </article>
+
+        <article class="feature-card">
+          <h3>Role-Based Access</h3>
+          <p>Separate flows for administrators, hosts, and customers.</p>
+        </article>
+
+        <article class="feature-card">
+          <h3>Property Management</h3>
+          <p>Hosts can create, update, and manage vacation rental listings.</p>
+        </article>
+
+        <article class="feature-card">
+          <h3>Booking Management</h3>
+          <p>Customers can book stays while hosts manage booking confirmations.</p>
+        </article>
+
+        <article class="feature-card">
+          <h3>Review System</h3>
+          <p>Customers can submit reviews after stays.</p>
+        </article>
+
+        <article class="feature-card">
+          <h3>ML Price Prediction</h3>
+          <p>Hosts can estimate suitable nightly prices using a trained Scikit-learn model.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="screenshots">
+      <div class="section-header">
+        <p class="eyebrow">Screenshots</p>
+        <h2>Visual proof of the application</h2>
+        <p>
+          Replace these images with real screenshots from your local app after running
+          the Flask server and seed data.
+        </p>
+      </div>
+
+      <div class="screenshot-grid">
+        <figure>
+          <img src="./assets/login.png" alt="Login page screenshot" />
+          <figcaption>Login Page</figcaption>
+        </figure>
+
+        <figure>
+          <img src="./assets/host-dashboard.png" alt="Host dashboard screenshot" />
+          <figcaption>Host Dashboard</figcaption>
+        </figure>
+
+        <figure>
+          <img src="./assets/customer-properties.png" alt="Customer property listing screenshot" />
+          <figcaption>Customer Property Browsing</figcaption>
+        </figure>
+
+        <figure>
+          <img src="./assets/admin-dashboard.png" alt="Admin dashboard screenshot" />
+          <figcaption>Admin Dashboard</figcaption>
+        </figure>
+
+        <figure>
+          <img src="./assets/price-predictor.png" alt="Price prediction page screenshot" />
+          <figcaption>Price Prediction Module</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="stack">
+      <div class="section-header">
+        <p class="eyebrow">Technology Stack</p>
+        <h2>Built with a simple thesis-friendly architecture</h2>
+      </div>
+
+      <div class="stack-list">
+        <div>
+          <strong>Backend</strong>
+          <span>Flask, Flask-SQLAlchemy, Flask-Login</span>
+        </div>
+        <div>
+          <strong>Frontend</strong>
+          <span>HTML, CSS, JavaScript, Jinja templates</span>
+        </div>
+        <div>
+          <strong>Database</strong>
+          <span>SQLite</span>
+        </div>
+        <div>
+          <strong>Machine Learning</strong>
+          <span>Scikit-learn, Pandas, NumPy, Joblib, Matplotlib</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="run">
+      <div class="section-header">
+        <p class="eyebrow">Run Locally</p>
+        <h2>How to run the full application</h2>
+      </div>
+
+      <pre><code>git clone git@github.com:SabetAbderrahmane/Vacation-Rental-Management-System-with-Price-Prediction.git
+cd Vacation-Rental-Management-System-with-Price-Prediction
+
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+pip install -r requirements.txt
+python init_db.py
+python seed.py
+python app.py</code></pre>
+
+      <p class="note">
+        The full app runs locally at <strong>http://127.0.0.1:5000</strong>.
+        GitHub Pages only hosts this static showcase page.
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>
+      Vacation Rental Management System with Price Prediction — Undergraduate Thesis MVP.
+    </p>
+  </footer>
+</body>
+</html>
