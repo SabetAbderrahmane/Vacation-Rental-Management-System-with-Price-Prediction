@@ -7,7 +7,7 @@ property_bp = Blueprint("property", __name__)
 
 @property_bp.route("/")
 def index():
-    # Show up to 3 available properties on the home page
+    
     featured_properties = Property.query.filter_by(availability_status="available").order_by(
         Property.created_at.desc()
     ).limit(3).all()
@@ -54,8 +54,7 @@ def list_properties():
 def property_detail(property_id):
     prop = Property.query.get_or_404(property_id)
     
-    # MVP rule: Unavailable properties should still be viewable direct by ID (e.g. for hosts/past bookings), 
-    # but the API_CONTRACTS.md doesn't explicitly restrict get_or_404 by availability, so keeping it simple.
+
 
     reviews = Review.query.filter_by(property_id=prop.id).order_by(Review.created_at.desc()).all()
     

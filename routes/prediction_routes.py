@@ -9,7 +9,7 @@ from routes.utils import host_required
 
 prediction_bp = Blueprint("prediction", __name__)
 
-# Use absolute paths for ML artifacts relative to this file
+
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 MODEL_PATH = os.path.join(BASE_DIR, "ml", "model.joblib")
 SCHEMA_PATH = os.path.join(BASE_DIR, "ml", "feature_schema.json")
@@ -49,8 +49,7 @@ def predict():
             flash(error, "error")
         return render_template("host/predict_price.html", schema=schema, prediction=None, error_message=error)
 
-    # POST logic
-    # 0. Capture input_data IMMEDIATELY to preserve form state
+  
     input_data = {}
     for key in request.form:
         input_data[key] = request.form.get(key)
@@ -70,11 +69,10 @@ def predict():
     print(f"Expected feature names: {expected_features}")
 
     try:
-        # 1. Extract and validate features based on schema
-        # We build a final dict for the DataFrame
+       
         processed_inputs = {}
         
-        # Categorical features
+       
         for feat in schema.get("categorical_features", []):
             val = request.form.get(feat)
             if not val:
@@ -83,7 +81,7 @@ def predict():
                 return render_template("host/predict_price.html", schema=schema, prediction=None, form_data=input_data)
             processed_inputs[feat] = str(val)
 
-        # Numeric features
+      
         for feat in schema.get("numeric_features", []):
             val = request.form.get(feat)
             if val is None or val.strip() == "":
@@ -97,15 +95,15 @@ def predict():
                 flash(f"Feature '{feat}' must be a numeric value.", "error")
                 return render_template("host/predict_price.html", schema=schema, prediction=None, form_data=input_data)
 
-        # 2. Build DataFrame with exact feature order
+       
         input_df = pd.DataFrame([processed_inputs])[expected_features]
         print(f"Constructed input_df columns: {list(input_df.columns)}")
 
-        # 3. Predict
+        
         predicted_log = model.predict(input_df)[0]
         print(f"Raw log prediction: {predicted_log}")
 
-        # 4. Convert back from log scale
+
         if schema.get("target_transform") == "natural_log":
             predicted_price = np.exp(predicted_log)
         else:
@@ -140,7 +138,7 @@ def model_metrics():
         with open(METRICS_PATH, "r") as f:
             metrics = json.load(f)
             
-        # Try to load feature importance if available
+       
         importance = None
         imp_path = os.path.join("ml", "feature_importance.json")
         if os.path.exists(imp_path):

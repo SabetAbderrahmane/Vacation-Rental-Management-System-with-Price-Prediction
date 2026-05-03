@@ -87,7 +87,7 @@ def main():
     best_name = "Tuned Random Forest B (Best)"
     best_pipeline = None
     
-    # We will also add a note about the discarded NLP model in the metrics
+ 
     latest_nlp_ref = {
         "MAE": 42.86, "RMSE": 80.29, "R2": 0.59, 
         "acceptability_within_20_percent": 48.5,
@@ -120,7 +120,7 @@ def main():
         if name == best_name:
             best_pipeline = pipeline
             
-    # Add the failed experiment for comparison as requested
+ 
     results["Latest NLP Improvement Pass (Rejected)"] = latest_nlp_ref
             
     print(f"\nFinal selected model: {best_name}")

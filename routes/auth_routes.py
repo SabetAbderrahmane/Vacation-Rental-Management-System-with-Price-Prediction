@@ -21,7 +21,7 @@ def register():
         role = request.form.get("role", "")
         phone_number = request.form.get("phone_number", "").strip() or None
 
-        # --- Validation (per API_CONTRACTS.md section 2.2) ---
+        
 
         if not name or len(name) < 2 or len(name) > 120:
             flash("Name is required (2-120 characters).", "error")

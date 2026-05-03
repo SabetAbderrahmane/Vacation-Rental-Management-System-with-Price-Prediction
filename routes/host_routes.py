@@ -22,7 +22,7 @@ def dashboard():
 
     my_properties_count = len(my_properties)
 
-    # Booking stats — safe even if no bookings exist yet
+
     if property_ids:
         my_bookings_count = Booking.query.filter(Booking.property_id.in_(property_ids)).count()
         pending_bookings_count = Booking.query.filter(
@@ -74,7 +74,7 @@ def add_property():
         availability_status = request.form.get("availability_status", "available")
         image_url = request.form.get("image_url", "").strip() or None
 
-        # Numeric fields with safe defaults
+   
         try:
             bedrooms = int(request.form.get("bedrooms", 1))
         except (ValueError, TypeError):
@@ -92,7 +92,6 @@ def add_property():
         except (ValueError, TypeError):
             price_per_night = 0
 
-        # Validation (per API_CONTRACTS.md section 5.4)
         if not title or len(title) < 3 or len(title) > 150:
             flash("Title is required (3-150 characters).", "error")
             return render_template("host/add_property.html")
@@ -238,7 +237,7 @@ def delete_property(property_id):
         flash("You do not have permission to access this page.", "error")
         abort(403)
 
-    # MVP delete rule: soft-delete if bookings exist
+
     booking_count = Booking.query.filter_by(property_id=prop.id).count()
     if booking_count > 0:
         prop.availability_status = "unavailable"
@@ -258,18 +257,16 @@ def delete_property(property_id):
 @login_required
 @host_required
 def bookings():
-    # Load bookings for properties owned by current host
+
     host_properties = Property.query.filter_by(host_id=current_user.id).all()
     prop_ids = [p.id for p in host_properties]
     
-    # Needs to order by dates or created, MVP default desc based on creation
+  
     host_bookings = Booking.query.filter(Booking.property_id.in_(prop_ids)).order_by(
         Booking.created_at.desc()
     ).all()
     
-    # We will need the customer user objects in the template
-    # Since we didn't add explicit bidirectional relationships everywhere in MVP phase 2,
-    # we'll inject the customer object onto each booking dynamically for the template
+ 
     from models.user import User
     for b in host_bookings:
         b._customer = User.query.get(b.customer_id)
@@ -341,5 +338,5 @@ def complete_booking(booking_id):
 
 
 
-# --- End of Routes ---
+
 

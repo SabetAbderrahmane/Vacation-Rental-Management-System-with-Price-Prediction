@@ -12,7 +12,7 @@ def seed_data():
     with app.app_context():
         print("Starting Database Seeding (Phase 13)...")
         
-        # 1. Cleanup Order: Reviews -> Bookings -> Properties -> Users
+        
         demo_emails = [
             "admin@example.com",
             "host@example.com",
@@ -26,8 +26,7 @@ def seed_data():
         target_user_ids = [u.id for u in target_users]
         
         if target_user_ids:
-            # Delete Reviews
-            # (Either by demo customers or on demo properties)
+          
             demo_props = Property.query.filter(Property.host_id.in_(target_user_ids)).all()
             demo_prop_ids = [p.id for p in demo_props]
             
@@ -36,16 +35,16 @@ def seed_data():
                 (Review.property_id.in_(demo_prop_ids))
             ).delete(synchronize_session=False)
             
-            # Delete Bookings
+            
             Booking.query.filter(
                 (Booking.customer_id.in_(target_user_ids)) |
                 (Booking.property_id.in_(demo_prop_ids))
             ).delete(synchronize_session=False)
             
-            # Delete Properties
+        
             Property.query.filter(Property.host_id.in_(target_user_ids)).delete(synchronize_session=False)
             
-            # Delete Users
+           
             User.query.filter(User.email.in_(demo_emails)).delete(synchronize_session=False)
             
             db.session.commit()
@@ -53,7 +52,7 @@ def seed_data():
         else:
             print("No existing demo records found. Proceeding with fresh creation.")
 
-        # 2. Create Users
+       
         # Admin
         admin = User(name="System Admin", email="admin@example.com", role="admin")
         admin.set_password("admin123")
@@ -76,9 +75,9 @@ def seed_data():
         db.session.commit()
         print(f"Created/Recreated {len(demo_emails)} demo users.")
 
-        # 3. Create Properties (6 total)
+       
         properties_data = [
-            # Host 1 Properties
+          
             {
                 "host_id": host1.id,
                 "title": "Brooklyn Heights Modern Studio",
@@ -124,7 +123,7 @@ def seed_data():
                 "availability_status": "available",
                 "image_url": "images/properties/sf_mission_loft.jpg"
             },
-            # Host 2 Properties
+           
             {
                 "host_id": host2.id,
                 "title": "Columbia Heights Classic Rowhouse",
@@ -181,8 +180,7 @@ def seed_data():
         db.session.commit()
         print(f"Created {len(created_props)} demo properties.")
 
-        # 4. Create Bookings (4 total)
-        # Booking 1: Completed (Host 1, Prop 1, Cust 1)
+ 
         b1 = Booking(
             property_id=created_props[0].id,
             customer_id=cust1.id,
@@ -193,7 +191,7 @@ def seed_data():
             status="completed"
         )
         
-        # Booking 2: Confirmed (Host 2, Prop 4, Cust 1)
+      
         b2 = Booking(
             property_id=created_props[3].id,
             customer_id=cust1.id,
@@ -204,7 +202,7 @@ def seed_data():
             status="confirmed"
         )
         
-        # Booking 3: Pending (Host 1, Prop 2, Cust 2)
+
         b3 = Booking(
             property_id=created_props[1].id,
             customer_id=cust2.id,
@@ -215,7 +213,7 @@ def seed_data():
             status="pending"
         )
         
-        # Booking 4: Cancelled (Host 2, Prop 5, Cust 2)
+   
         b4 = Booking(
             property_id=created_props[4].id,
             customer_id=cust2.id,
@@ -230,8 +228,7 @@ def seed_data():
         db.session.commit()
         print(f"Created 4 demo bookings (Completed, Confirmed, Pending, Cancelled).")
 
-        # 5. Create Reviews (3 total)
-        # Attached to completed/existing bookings where possible
+
         r1 = Review(
             property_id=created_props[0].id,
             customer_id=cust1.id,
@@ -243,7 +240,6 @@ def seed_data():
         r2 = Review(
             property_id=created_props[3].id,
             customer_id=cust2.id,
-            # (Simulated review without explicit completed booking ID for variety, if model allows)
             booking_id=None, 
             rating=4,
             comment="Great rowhouse, very authentic DC experience."

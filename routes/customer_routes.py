@@ -36,8 +36,7 @@ def bookings():
     customer_bookings = Booking.query.filter_by(customer_id=current_user.id).order_by(
         Booking.created_at.desc()
     ).all()
-    # Eagerly load properties for the template display, or rely on sqlalchemy implicit joins
-    # Since it's MVP, implicit is fine.
+   
     return render_template("customer/my_bookings.html", bookings=customer_bookings)
 
 
