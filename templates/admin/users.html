@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Admin - Manage Users{% endblock %}
 {% block content %}
-<div class="flex-between mb-3">
+<div class="flex-between mb-3 section-head">
     <h1>User Management</h1>
     <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline">&larr; Back to Dashboard</a>
 </div>
@@ -22,19 +22,19 @@
             {% for u in users %}
             <tr>
                 <td class="text-muted">#{{ u.id }}</td>
-                <td style="font-weight: 600;">{{ u.name }}</td>
+                <td class="table-emphasis">{{ u.name }}</td>
                 <td>{{ u.email }}</td>
                 <td>
                     {% if u.role == 'admin' %}
-                        <span class="badge badge-success">{{ u.role }}</span>
+                        <span class="badge admin-role-admin">{{ u.role }}</span>
                     {% elif u.role == 'host' %}
-                        <span class="badge badge-primary">{{ u.role }}</span>
+                        <span class="badge admin-role-host">{{ u.role }}</span>
                     {% else %}
-                        <span class="badge" style="background:#e2e8f0; color:#475569;">{{ u.role }}</span>
+                        <span class="badge admin-role-customer">{{ u.role }}</span>
                     {% endif %}
                 </td>
                 <td>{{ u.phone or '--' }}</td>
-                <td style="font-size: 0.85rem; color:#64748b;">{{ u.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td class="review-date text-muted">{{ u.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
             </tr>
             {% endfor %}
         </tbody>

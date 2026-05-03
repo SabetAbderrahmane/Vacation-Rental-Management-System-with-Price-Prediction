@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block title %}Admin Dashboard{% endblock %}
 {% block content %}
-<div class="flex-between mb-3">
+<div class="flex-between mb-3 section-head">
     <h1>System Administration</h1>
 </div>
 
-<div class="stats-row" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+<div class="stats-row">
     <div class="stat-card">
         <span class="stat-value">{{ total_users }}</span>
         <span class="stat-label">Total Users</span>
@@ -34,11 +34,11 @@
 
 <div class="card mt-3">
     <h2>Data Management</h2>
-    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 16px;">
-        <a href="{{ url_for('admin.users') }}" class="btn btn-outline" style="text-align:left;">View Users Database</a>
-        <a href="{{ url_for('admin.properties') }}" class="btn btn-outline" style="text-align:left;">View Properties Database</a>
-        <a href="{{ url_for('admin.bookings') }}" class="btn btn-outline" style="text-align:left;">View Bookings Database</a>
-        <a href="{{ url_for('admin.reviews') }}" class="btn btn-outline" style="text-align:left;">View Reviews Database</a>
+    <div class="admin-links">
+        <a href="{{ url_for('admin.users') }}" class="btn btn-outline admin-link-btn">View Users Database</a>
+        <a href="{{ url_for('admin.properties') }}" class="btn btn-outline admin-link-btn">View Properties Database</a>
+        <a href="{{ url_for('admin.bookings') }}" class="btn btn-outline admin-link-btn">View Bookings Database</a>
+        <a href="{{ url_for('admin.reviews') }}" class="btn btn-outline admin-link-btn">View Reviews Database</a>
     </div>
 </div>
 {% endblock %}

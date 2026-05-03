@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Register — Vacation Rental System{% endblock %}
 {% block content %}
+<section class="auth-shell">
 <div class="form-card">
     <h1>Create Account</h1>
     <p class="text-muted mb-2">Register as a Host or Customer to get started.</p>
@@ -46,10 +47,11 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary" style="width:100%">Register</button>
+            <button type="submit" class="btn btn-primary w-100">Register</button>
         </div>
     </form>
 
     <p class="text-center mt-2">Already have an account? <a href="{{ url_for('auth.login') }}">Log in</a></p>
 </div>
+</section>
 {% endblock %}

@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block title %}Review {{ property.title }}{% endblock %}
 {% block content %}
-<div class="form-card" style="max-width:560px;">
+<div class="form-card booking-card">
     <h1>Leave a Review</h1>
     <h2 class="text-muted mb-2">{{ property.title }}</h2>
 
-    <div style="background: #f8fafc; padding: 16px; border-radius: 8px; margin-bottom: 24px; border: 1px solid #e2e8f0; font-size: 0.9rem;">
+    <div class="booking-summary">
         <div><strong>Check-in:</strong> {{ booking.check_in_date.strftime('%B %d, %Y') }}</div>
         <div><strong>Check-out:</strong> {{ booking.check_out_date.strftime('%B %d, %Y') }}</div>
-        <div style="margin-top: 8px; font-weight: 500;">We hope you enjoyed your stay!</div>
+        <div class="mt-1">We hope you enjoyed your stay!</div>
     </div>
 
     <form method="POST" action="{{ url_for('customer.submit_review', booking_id=booking.id) }}">
@@ -30,7 +30,7 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Review</button>
+            <button type="submit" class="btn btn-primary w-100">Submit Review</button>
         </div>
     </form>
     

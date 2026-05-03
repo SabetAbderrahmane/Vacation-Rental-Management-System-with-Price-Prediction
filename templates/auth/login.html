@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Login — Vacation Rental System{% endblock %}
 {% block content %}
+<section class="auth-shell">
 <div class="form-card">
-    <h1>Log In</h1>
+    <h1>Sign In</h1>
     <p class="text-muted mb-2">Enter your credentials to continue.</p>
 
     <form method="POST" action="{{ url_for('auth.login') }}">
@@ -19,10 +20,11 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary" style="width:100%">Log In</button>
+            <button type="submit" class="btn btn-primary w-100">Log In</button>
         </div>
     </form>
 
     <p class="text-center mt-2">Don't have an account? <a href="{{ url_for('auth.register') }}">Register</a></p>
 </div>
+</section>
 {% endblock %}

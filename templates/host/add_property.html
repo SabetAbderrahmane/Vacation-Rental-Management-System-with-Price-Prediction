@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Add Property{% endblock %}
 {% block content %}
-<div class="form-card" style="max-width:640px;">
+<div class="form-card host-form-card">
     <h1>Add New Property</h1>
 
     <form method="POST" action="{{ url_for('host.add_property') }}">
@@ -38,7 +38,7 @@
             </select>
         </div>
 
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+        <div class="form-grid-3">
             <div class="form-group">
                 <label for="bedrooms">Bedrooms *</label>
                 <input type="number" id="bedrooms" name="bedrooms" value="1" min="0" required>
@@ -59,7 +59,7 @@
                    placeholder="e.g. wifi,kitchen,parking,pool">
         </div>
 
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div class="form-grid-2">
             <div class="form-group">
                 <label for="price_per_night">Price per Night ($) *</label>
                 <input type="number" id="price_per_night" name="price_per_night" min="0.01" step="0.01" required
@@ -75,13 +75,13 @@
         </div>
 
         <div class="form-group">
-            <label for="image_url">Image URL</label>
-            <input type="url" id="image_url" name="image_url" placeholder="https://example.com/image.jpg">
+            <label for="image_url">Image Path or URL</label>
+            <input type="text" id="image_url" name="image_url" placeholder="images/properties/nyc_brooklyn_apartment.jpg">
         </div>
 
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Create Property</button>
-            <a href="{{ url_for('host.properties') }}" class="btn btn-secondary" style="margin-left:8px;">Cancel</a>
+            <a href="{{ url_for('host.properties') }}" class="btn btn-secondary btn-gap-left">Cancel</a>
         </div>
     </form>
 </div>

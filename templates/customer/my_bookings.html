@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}My Bookings{% endblock %}
 {% block content %}
-<div class="flex-between mb-3">
+<div class="flex-between mb-3 section-head">
     <h1>My Bookings</h1>
     <a href="{{ url_for('property.list_properties') }}" class="btn btn-primary">Book Another Stay</a>
 </div>
@@ -33,14 +33,14 @@
                 </td>
                 <td>
                     {% if b.status in ['pending', 'confirmed'] %}
-                    <form method="POST" action="{{ url_for('customer.cancel_booking', booking_id=b.id) }}" style="display:inline;">
+                    <form method="POST" action="{{ url_for('customer.cancel_booking', booking_id=b.id) }}" class="inline-action">
                         <button type="submit" class="btn btn-sm btn-danger" data-confirm="Are you sure you want to cancel this booking?">Cancel</button>
                     </form>
                     {% elif b.status == 'completed' %}
                         <!-- Review future stub -->
                         <a href="{{ url_for('customer.submit_review', booking_id=b.id) }}" class="btn btn-sm btn-secondary">Leave Review</a>
                     {% else %}
-                        <span class="text-muted" style="font-size: 0.85rem;">No actions</span>
+                        <span class="text-muted review-date">No actions</span>
                     {% endif %}
                 </td>
             </tr>

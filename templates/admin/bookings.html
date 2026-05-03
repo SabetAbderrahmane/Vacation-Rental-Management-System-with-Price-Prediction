@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Admin - Manage Bookings{% endblock %}
 {% block content %}
-<div class="flex-between mb-3">
+<div class="flex-between mb-3 section-head">
     <h1>Booking Management</h1>
     <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline">&larr; Back to Dashboard</a>
 </div>
@@ -23,18 +23,18 @@
             <tr>
                 <td class="text-muted">#{{ b.id }}</td>
                 <td>
-                    <div style="font-weight: 600;">{{ b._customer.name if b._customer else 'Unknown' }}</div>
-                    <div style="font-size: 0.85rem; color: #64748b;">{{ b._customer.email if b._customer else '--' }}</div>
+                    <div class="table-emphasis">{{ b._customer.name if b._customer else 'Unknown' }}</div>
+                    <div class="review-date text-muted">{{ b._customer.email if b._customer else '--' }}</div>
                 </td>
                 <td>
                     <a href="{{ url_for('property.property_detail', property_id=b.property_id) }}">{{ b._property.title if b._property else 'Unknown Property' }}</a>
                 </td>
-                <td style="font-size: 0.85rem;">
+                <td class="review-date">
                     <div>In: {{ b.check_in_date.strftime('%Y-%m-%d') }}</div>
                     <div>Out: {{ b.check_out_date.strftime('%Y-%m-%d') }}</div>
                     <div class="text-muted">({{ b.number_of_nights }} nights)</div>
                 </td>
-                <td style="font-weight: 600;">${{ "%.2f" | format(b.total_price) }}</td>
+                <td class="table-emphasis">${{ "%.2f" | format(b.total_price) }}</td>
                 <td>
                     <span class="badge badge-{{ b.status }}">{{ b.status }}</span>
                 </td>

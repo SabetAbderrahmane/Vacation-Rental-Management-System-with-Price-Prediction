@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Admin - Manage Properties{% endblock %}
 {% block content %}
-<div class="flex-between mb-3">
+<div class="flex-between mb-3 section-head">
     <h1>Property Management</h1>
     <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline">&larr; Back to Dashboard</a>
 </div>
@@ -23,8 +23,8 @@
             <tr>
                 <td class="text-muted">#{{ p.id }}</td>
                 <td>
-                    <a href="{{ url_for('property.property_detail', property_id=p.id) }}" style="font-weight: 600; display:block;">{{ p.title }}</a>
-                    <span style="font-size: 0.85rem; color: #64748b;">Host: {{ p._host.name if p._host else 'Unknown' }} ({{ p._host.email if p._host else '--' }})</span>
+                    <a href="{{ url_for('property.property_detail', property_id=p.id) }}" class="table-link-emphasis">{{ p.title }}</a>
+                    <span class="review-date text-muted">Host: {{ p._host.name if p._host else 'Unknown' }} ({{ p._host.email if p._host else '--' }})</span>
                 </td>
                 <td>{{ p.location }}</td>
                 <td>{{ p.room_type | replace('_', ' ') | title }}</td>

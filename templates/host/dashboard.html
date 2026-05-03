@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Host Dashboard{% endblock %}
 {% block content %}
-<div class="flex-between mb-3">
+<div class="flex-between mb-3 section-head">
     <h1>Host Dashboard</h1>
     <a href="{{ url_for('host.add_property') }}" class="btn btn-primary">+ Add Property</a>
 </div>
@@ -27,8 +27,10 @@
 
 <div class="card">
     <h2>Quick Links</h2>
-    <p><a href="{{ url_for('host.properties') }}">View My Properties</a></p>
-    <p><a href="{{ url_for('host.bookings') }}">View Bookings</a></p>
-    <p><a href="{{ url_for('prediction.predict') }}">Price Predictor</a></p>
+    <div class="quick-links">
+        <a href="{{ url_for('host.properties') }}">View My Properties</a>
+        <a href="{{ url_for('host.bookings') }}">View Bookings</a>
+        <a href="{{ url_for('prediction.predict') }}">Price Predictor</a>
+    </div>
 </div>
 {% endblock %}

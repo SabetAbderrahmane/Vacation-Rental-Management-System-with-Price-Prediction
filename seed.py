@@ -91,7 +91,8 @@ def seed_data():
                 "max_guests": 2,
                 "amenities": "WiFi, Kitchen, AC, TV, Workspace",
                 "price_per_night": 175.0,
-                "availability_status": "available"
+                "availability_status": "available",
+                "image_url": "images/properties/nyc_brooklyn_apartment.jpg"
             },
             {
                 "host_id": host1.id,
@@ -105,7 +106,8 @@ def seed_data():
                 "max_guests": 2,
                 "amenities": "Pool, WiFi, Parking, AC",
                 "price_per_night": 250.0,
-                "availability_status": "available"
+                "availability_status": "available",
+                "image_url": "images/properties/la_hollywood_studio.jpg"
             },
             {
                 "host_id": host1.id,
@@ -119,7 +121,8 @@ def seed_data():
                 "max_guests": 3,
                 "amenities": "Garden, WiFi, Kitchen, Washer",
                 "price_per_night": 190.0,
-                "availability_status": "available"
+                "availability_status": "available",
+                "image_url": "images/properties/sf_mission_loft.jpg"
             },
             # Host 2 Properties
             {
@@ -134,7 +137,8 @@ def seed_data():
                 "max_guests": 6,
                 "amenities": "Kitchen, WiFi, Patio, AC, Heating",
                 "price_per_night": 320.0,
-                "availability_status": "available"
+                "availability_status": "available",
+                "image_url": "images/properties/dc_columbia_home.jpg"
             },
             {
                 "host_id": host2.id,
@@ -148,7 +152,8 @@ def seed_data():
                 "max_guests": 4,
                 "amenities": "WiFi, Kitchen, TV, Elevator",
                 "price_per_night": 150.0,
-                "availability_status": "available"
+                "availability_status": "available",
+                "image_url": "images/properties/chicago_lakeview_condo.jpg"
             },
             {
                 "host_id": host2.id,
@@ -162,7 +167,8 @@ def seed_data():
                 "max_guests": 2,
                 "amenities": "WiFi, Desk, Historic Charm",
                 "price_per_night": 130.0,
-                "availability_status": "available"
+                "availability_status": "available",
+                "image_url": "images/properties/boston_beacon_hill_room.jpg"
             }
         ]
         

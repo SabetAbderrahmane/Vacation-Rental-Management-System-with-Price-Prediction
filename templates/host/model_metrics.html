@@ -1,18 +1,17 @@
 {% extends "base.html" %}
-
 {% block title %}Model Metrics - Vacation Rental System{% endblock %}
 
 {% block content %}
-<div class="header-actions mb-3">
-    <h1>Model Performance & Transparency</h1>
-    <p class="text-muted">Detailed metrics for the certified Price Prediction Engine.</p>
-    <a href="{{ url_for('prediction.predict') }}" class="btn btn-outline btn-sm">← Back to Predictor</a>
+<div class="flex-between mb-3 section-head">
+    <div>
+        <h1>Model Performance & Transparency</h1>
+        <p class="text-muted">Detailed metrics for the certified Price Prediction Engine.</p>
+    </div>
+    <a href="{{ url_for('prediction.predict') }}" class="btn btn-outline btn-sm">&larr; Back to Predictor</a>
 </div>
 
-<div class="metrics-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
-    
-    <div class="main-metrics">
-        <!-- Performance Overview -->
+<div class="metrics-layout">
+    <div>
         <div class="card">
             <h2>Core Metrics</h2>
             {% if metrics and metrics.models and metrics.best_model %}
@@ -31,7 +30,7 @@
                         <span class="stat-label">Accuracy (±20%)</span>
                     </div>
                 </div>
-                
+
                 <div class="mt-3">
                     <h3>Regression Baselines</h3>
                     <div class="table-wrapper">
@@ -47,11 +46,11 @@
                             </thead>
                             <tbody>
                                 {% for name, m in metrics.models.items() %}
-                                <tr {% if name == metrics.best_model %}style="background: #eff6ff; font-weight: 600;"{% endif %}>
+                                <tr {% if name == metrics.best_model %}class="best-model-row"{% endif %}>
                                     <td>
                                         {{ name }}
                                         {% if name == metrics.best_model %}
-                                            <span class="badge badge-confirmed" style="font-size: 0.65rem; padding: 1px 6px;">Selected</span>
+                                            <span class="badge badge-confirmed model-selected-badge">Selected</span>
                                         {% endif %}
                                     </td>
                                     <td>{{ m.MAE }}</td>
@@ -71,31 +70,30 @@
 
         <div class="card">
             <h2>Dataset Summary</h2>
-            <ul style="list-style: none; padding: 0;">
-                <li style="margin-bottom: 8px;"><strong>Source:</strong> {{ metrics.dataset_name if metrics else 'N/A' }}</li>
-                <li style="margin-bottom: 8px;"><strong>Total Samples:</strong> {{ metrics.rows_after_cleaning if metrics else 'N/A' }}</li>
-                <li style="margin-bottom: 8px;"><strong>Training Scale:</strong> {{ metrics.target_transform if metrics else 'N/A' }} (Price)</li>
-                <li style="margin-bottom: 8px;"><strong>Currency:</strong> {{ metrics.currency if metrics else 'USD' }}</li>
+            <ul class="dataset-list">
+                <li><strong>Source:</strong> {{ metrics.dataset_name if metrics else 'N/A' }}</li>
+                <li><strong>Total Samples:</strong> {{ metrics.rows_after_cleaning if metrics else 'N/A' }}</li>
+                <li><strong>Training Scale:</strong> {{ metrics.target_transform if metrics else 'N/A' }} (Price)</li>
+                <li><strong>Currency:</strong> {{ metrics.currency if metrics else 'USD' }}</li>
             </ul>
         </div>
     </div>
 
-    <!-- Importance Sidebar -->
-    <div class="importance-sidebar">
+    <aside>
         <div class="card">
             <h2>Feature Importance</h2>
-            <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 15px;">Factors that influence the price the most.</p>
+            <p class="text-muted review-date mb-2">Factors that influence the price the most.</p>
             {% if importance %}
                 <div class="importance-list">
                     {% for feat, value in importance.items() %}
                     {% if loop.index <= 12 %}
-                    <div class="importance-item" style="margin-bottom: 12px;">
-                        <div class="flex-between" style="font-size: 0.85rem; margin-bottom: 4px;">
-                            <span style="font-weight: 600; color: #334155;">{{ feat }}</span>
-                            <span style="color: #2563eb;">{{ (value * 100)|round(1) }}%</span>
+                    <div class="importance-item">
+                        <div class="flex-between review-date importance-head">
+                            <span>{{ feat }}</span>
+                            <span>{{ (value * 100)|round(1) }}%</span>
                         </div>
-                        <div style="background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden;">
-                            <div style="background: #2563eb; width: {{ value * 100 }}%; height: 100%;"></div>
+                        <div class="importance-track">
+                            <div class="importance-fill" style="width: {{ value * 100 }}%;"></div>
                         </div>
                     </div>
                     {% endif %}
@@ -105,6 +103,6 @@
                 <p class="text-muted">Importance data not available.</p>
             {% endif %}
         </div>
-    </div>
+    </aside>
 </div>
 {% endblock %}

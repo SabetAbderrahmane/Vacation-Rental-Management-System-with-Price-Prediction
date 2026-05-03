@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Customer Dashboard{% endblock %}
 {% block content %}
-<div class="flex-between mb-3">
-    <h1>Customer Dashboard</h1>
+<div class="flex-between mb-3 section-head">
+    <h1>My Travel Dashboard</h1>
     <a href="{{ url_for('property.list_properties') }}" class="btn btn-primary">Find a Property</a>
 </div>
 
@@ -27,7 +27,9 @@
 
 <div class="card">
     <h2>Quick Links</h2>
-    <p><a href="{{ url_for('customer.bookings') }}">View My Bookings</a></p>
-    <p><a href="{{ url_for('property.list_properties') }}">Browse Properties</a></p>
+    <div class="quick-links">
+        <a href="{{ url_for('customer.bookings') }}">View My Bookings</a>
+        <a href="{{ url_for('property.list_properties') }}">Browse Properties</a>
+    </div>
 </div>
 {% endblock %}
